@@ -5,7 +5,9 @@ import { COLORS } from "./constants/colors";
 import CategoriesPage from "./pages/CategoriesPage";
 
 function App() {
-  const [currentPage, setCurrentPage] = useState("history");
+  const [currentPage, setCurrentPage] = useState<"history" | "categories">(
+    "history"
+  );
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
   const appStyle: React.CSSProperties = {
@@ -28,7 +30,7 @@ function App() {
     <div style={appStyle}>
       <Sidebar
         currentPage={currentPage}
-        onNavigate={setCurrentPage}
+        onNavigate={(page) => setCurrentPage(page as "history" | "categories")}
         isCollapsed={isSidebarCollapsed}
         onToggleCollapse={handleToggleSidebar}
       />
