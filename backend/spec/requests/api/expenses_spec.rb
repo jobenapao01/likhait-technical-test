@@ -16,12 +16,20 @@ RSpec.describe "Api::Expenses", type: :request do
       expect(json.length).to eq(2)
     end
 
-    it "returns expenses in descending order by created_at" do
+    it "returns expenses in descending order by date, then created_at" do
+      older_expense = Expense.create!(
+        description: "Old lunch",
+        amount: 25.00,
+        category: food_category,
+        date: 1.week.ago.to_date
+      )
+
       get "/api/expenses"
 
       json = JSON.parse(response.body)
       expect(json.first["id"]).to eq(expense2.id)
-      expect(json.last["id"]).to eq(expense1.id)
+      expect(json.second["id"]).to eq(expense1.id)
+      expect(json.last["id"]).to eq(older_expense.id)
     end
   end
 
